@@ -46,12 +46,13 @@ function checkMain(obj,keywords){
 
 function getKeywordDensity(all_words, key_words){
 	var KD = new Object;
-	for(var i=0;i<key_words.length;i++){
+	var unWords=unique(all_words);
+	for(var i=0;i<unWords.length;i++){
 		var k=0;
 		for(var j=0;j<all_words.length;j++){
-			if(key_words[i]==all_words[j]) k++;
+			if(unWords[i]==all_words[j] && $.inArray(unWords[i], key_words)==-1) k++;
 		}
-		KD[key_words[i]]=k;
+		KD[unWords[i]]=k;
 	};
 	return KD;
 }
@@ -67,7 +68,7 @@ function getMainCounts(e){
 	v=[];
 	for(var i=0;i<words.length;i++){
 		if(words[i]!=""){
-			v[i]=words[i];
+			v[i]=words[i].toLowerCase();
 			words_c++;
 		}
 	}
@@ -97,7 +98,7 @@ for (var prop in obj) {
 function unique(arr) {
 	var obj = {};
 	for(var i=0; i<arr.length; i++) {
-		var str = arr[i];
+		var str = arr[i].toLowerCase();
 		obj[str] = true;
 	}
 	return Object.keys(obj);
@@ -118,7 +119,7 @@ function modalShow(e){
 function updateKey(){
 	var kwords=[];
 	if($("#lang").is(':visible')){
-		kwords=$("#keys").val().split(/\,/);
+		kwords=$("#keys").val().toLowerCase().split(/\,/);
 	}else{
 		kwords=enKey;
 	}
